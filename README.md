@@ -24,7 +24,7 @@ Contribuia, e ajude a comunidade Flask crescer ainda mais.
 Depois de ter seguido todos os passos e ter desenvolvido os seus módulos, chegou a hora de colocar a aplicação em modo de produção.
 É bem simples, como a aplicação já foi configurada de uma forma simples pra executar os servidores basta executar o seguinte comando.
 
-`$ gunicorn run:create_app`
+`(env) $ gunicorn run:create_app`
 
 
 

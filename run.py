@@ -1,14 +1,16 @@
 import os
+import database
+import admin
 
-from flask import Flask
+from flask import Flask, jsonify
+from flask_cors import CORS
 
-import views
 
 '''
 Criando a fábrica de inicialização da applicação.
 '''
 
-def create_app(test_config=None):
+def create_app():
     
     '''
     Flask(__name__, instance_relative_config=True )
@@ -18,17 +20,24 @@ def create_app(test_config=None):
     segredos de configuração e o arquivo de banco de dados.
     '''
 
-    app=Flask(__name__)
+    app=Flask(__name__) 
 
-    if not test_config is None:
-        #Carrega da configuração de teste se ela for passada.
-        app.config.from_mapping(test_config)
+    '''
+    DECLARAÇÃO DE EXTENSÕES DA APLICAÇÃO
+    '''
 
-    try:
-        os.makedirs(app.instance_path)
-    except Exception as error:
-        print(str(error))
+    database.configure(app)
+    admin.configure(app)
     
-    views.configure(app)
+    '''
+    DECLARAÇÃO DE VARIAVEIS DA APLICAÇÃO
+    '''
+
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+
+    @app.route('/', methods=['GET'])
+    def init_app():
+        return jsonify(code=200, data='Aplicação inicializada com sucesso. Pode começar a desenvolver os seus módulos. http://localhost:5000/admin/contactview/'), 200
     
     return app
